@@ -7,6 +7,11 @@ CMD_PATH := ./cmd/
 # Default output directory for docs
 DOCS_DIR := docs/commands
 
+# Determine install directory (GOBIN or GOPATH/bin)
+INSTALL_DIR := $(shell go env GOBIN)
+ifeq ($(INSTALL_DIR),)
+INSTALL_DIR := $(shell go env GOPATH)/bin
+endif
 
 .PHONY: docs prepare build run test
 
@@ -21,6 +26,11 @@ build: prepare
 	mkdir -p build
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o $(BIN) $(CMD_PATH)
 
+# Copy the built binary to $(INSTALL_DIR) for direct use
+install: build
+	mkdir -p $(INSTALL_DIR)
+	cp $(BIN) $(INSTALL_DIR)/jntool
+	@echo "Installed jntool to $(INSTALL_DIR)/jntool"
 
 #   make run ARGS="helm values values.yaml -o json"
 build-run: build
