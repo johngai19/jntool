@@ -6,6 +6,7 @@ import (
 
 	"github.com/johngai19/jntool/jntool/fileops"
 	"github.com/johngai19/jntool/jntool/helm"
+	"github.com/johngai19/jntool/jntool/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -29,4 +30,5 @@ func init() {
 	// For example:
 	RootCmd.AddCommand(helm.HelmCmd)
 	RootCmd.AddCommand(fileops.FileopsCmd)
+	RootCmd.AddCommand(utils.UtilsCmd)
 }
